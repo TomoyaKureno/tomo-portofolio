@@ -58,6 +58,7 @@ export default function Home() {
           >
             Documentation
           </a>
+          <div className="w-20 h-20 bg-blue-500 rounded-md"></div>
         </div>
       </main>
     </div>
