@@ -1,52 +1,48 @@
-"use client";
-
-import { AppShell, Box, ScrollArea } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Box, Card, Flex, ScrollArea } from "@mantine/core";
 import React from "react";
 import Navbar from "../organisms/Navbar";
 import Header from "../organisms/Header";
 
 type TMainLayoutProps = {
-  children: React.ReactNode;
+	children: React.ReactNode;
 };
 
 const MainLayout: React.FC<TMainLayoutProps> = ({ children }) => {
-  const [opened, { toggle }] = useDisclosure();
+	return (
+		<Flex maw={1536} gap={"md"} h={"100dvh"} mx={{ xl: "auto" }} bg={"dark.7"} px={"md"} style={{
+			overflow: "hidden"
+		}}>
+			<Navbar />
 
-  return (
-    <AppShell
-      layout="alt"
-      navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
-      className="h-dvh overflow-hidden"
-    >
-      {/* Sidebar */}
-      <Navbar />
+			<Box
+				flex={1}
+				ms={{ base: 0, md: 338 }}
+				h={"100%"}
+				py={"xl"}
+				miw={0}
+			>
+				<Card shadow={"sm"} radius={"md"} p={0} bg={"dark.6"} flex={1} h={"100%"} withBorder>
+					<Flex
+						h={"100%"}
+						direction={"column"}
+						pos={"relative"}
+						style={{ overflow: "hidden" }}
+					>
+						<Header />
 
-      {/* MAIN */}
-      <AppShell.Main py="xl" pe="md" className="h-full overflow-hidden">
-        {/* 📦 Container statis */}
-        <Box
-          bd="1px solid gray.5"
-          bdrs="md"
-          className="flex h-full flex-col overflow-hidden"
-        >
-          {/* Sticky Header di dalam container */}
-          <Header/>
-
-          {/* Scrollable content */}
-          <ScrollArea
-            type="auto"
-            className="flex-1 min-h-0"
-          >
-            <Box p="md">
-              {children}
-              {/* <Box h={2000} bg="gray.1" /> */}
-            </Box>
-          </ScrollArea>
-        </Box>
-      </AppShell.Main>
-    </AppShell>
-  );
+						<ScrollArea
+							type={"never"}
+							flex={1}
+							mih={0}
+							py={"md"}
+						>
+							{children}
+						</ScrollArea>
+					</Flex>
+				</Card>
+			</Box>
+		</Flex>
+	);
 };
 
 export default MainLayout;
