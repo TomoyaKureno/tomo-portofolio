@@ -22,7 +22,7 @@ type Documents = {
     "query getProjectsPagination($first: Int!, $skip: Int!, $where: ProjectWhereInput) {\n  projects(first: $first, skip: $skip, orderBy: createdAt_DESC, where: $where) {\n    id\n    name\n    slug\n    overview\n    liveDemo\n    sourceUrl\n    categories {\n      id\n      name\n      slug\n    }\n    technologies {\n      id\n      name\n      slug\n    }\n    galeries {\n      url\n    }\n  }\n}": typeof types.GetProjectsPaginationDocument,
     "query getResumes {\n  educations {\n    id\n    resume {\n      organization\n      role\n      startDate\n      endDate\n      organizationLogo {\n        url\n      }\n      textRecords\n      groupRecords {\n        id\n        label\n        textRecords\n        resumeRecords {\n          id\n          record\n          startDate\n          endDate\n          galeries {\n            id\n            url\n          }\n        }\n        galeries {\n          id\n          url\n        }\n      }\n      galeries {\n        id\n        url\n      }\n    }\n    gpa\n    maxScore\n  }\n  experiences {\n    id\n    resume {\n      organization\n      role\n      startDate\n      endDate\n      organizationLogo {\n        url\n      }\n      textRecords\n      groupRecords {\n        id\n        label\n        textRecords\n        resumeRecords {\n          id\n          record\n          startDate\n          endDate\n          galeries {\n            id\n            url\n          }\n        }\n        galeries {\n          id\n          url\n        }\n      }\n      galeries {\n        id\n        url\n      }\n    }\n    technologies {\n      id\n    }\n  }\n}": typeof types.GetResumesDocument,
     "query getSkills {\n  skills {\n    id\n    icon\n    name\n    description\n  }\n}": typeof types.GetSkillsDocument,
-    "query getTechnologies {\n  technologies {\n    id\n    name\n    slug\n    url\n  }\n}": typeof types.GetTechnologiesDocument,
+    "query getTechnologies {\n  technologies(first: 1000) {\n    id\n    name\n    slug\n    url\n  }\n}": typeof types.GetTechnologiesDocument,
 };
 const documents: Documents = {
     "query getCertificateCategories {\n  certificateCategories {\n    id\n    name\n    slug\n  }\n}": types.GetCertificateCategoriesDocument,
@@ -33,7 +33,7 @@ const documents: Documents = {
     "query getProjectsPagination($first: Int!, $skip: Int!, $where: ProjectWhereInput) {\n  projects(first: $first, skip: $skip, orderBy: createdAt_DESC, where: $where) {\n    id\n    name\n    slug\n    overview\n    liveDemo\n    sourceUrl\n    categories {\n      id\n      name\n      slug\n    }\n    technologies {\n      id\n      name\n      slug\n    }\n    galeries {\n      url\n    }\n  }\n}": types.GetProjectsPaginationDocument,
     "query getResumes {\n  educations {\n    id\n    resume {\n      organization\n      role\n      startDate\n      endDate\n      organizationLogo {\n        url\n      }\n      textRecords\n      groupRecords {\n        id\n        label\n        textRecords\n        resumeRecords {\n          id\n          record\n          startDate\n          endDate\n          galeries {\n            id\n            url\n          }\n        }\n        galeries {\n          id\n          url\n        }\n      }\n      galeries {\n        id\n        url\n      }\n    }\n    gpa\n    maxScore\n  }\n  experiences {\n    id\n    resume {\n      organization\n      role\n      startDate\n      endDate\n      organizationLogo {\n        url\n      }\n      textRecords\n      groupRecords {\n        id\n        label\n        textRecords\n        resumeRecords {\n          id\n          record\n          startDate\n          endDate\n          galeries {\n            id\n            url\n          }\n        }\n        galeries {\n          id\n          url\n        }\n      }\n      galeries {\n        id\n        url\n      }\n    }\n    technologies {\n      id\n    }\n  }\n}": types.GetResumesDocument,
     "query getSkills {\n  skills {\n    id\n    icon\n    name\n    description\n  }\n}": types.GetSkillsDocument,
-    "query getTechnologies {\n  technologies {\n    id\n    name\n    slug\n    url\n  }\n}": types.GetTechnologiesDocument,
+    "query getTechnologies {\n  technologies(first: 1000) {\n    id\n    name\n    slug\n    url\n  }\n}": types.GetTechnologiesDocument,
 };
 
 /**
@@ -85,7 +85,7 @@ export function gql(source: "query getSkills {\n  skills {\n    id\n    icon\n  
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "query getTechnologies {\n  technologies {\n    id\n    name\n    slug\n    url\n  }\n}"): (typeof documents)["query getTechnologies {\n  technologies {\n    id\n    name\n    slug\n    url\n  }\n}"];
+export function gql(source: "query getTechnologies {\n  technologies(first: 1000) {\n    id\n    name\n    slug\n    url\n  }\n}"): (typeof documents)["query getTechnologies {\n  technologies(first: 1000) {\n    id\n    name\n    slug\n    url\n  }\n}"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

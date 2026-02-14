@@ -20,6 +20,7 @@ import {
   Title,
 } from "@mantine/core";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { Calendar, ChevronLeft, Clock3, ExternalLink, Github, UserRound } from "lucide-react";
 import Image from "next/image";
 
@@ -31,12 +32,12 @@ type ProjectDetailClientProps = {
 
 const MotionDiv = motion.div;
 
-const gridItemVariants = {
+const gridItemVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.3, ease: "easeOut" },
+    transition: { duration: 0.3, ease: "easeOut" as const },
   },
 };
 

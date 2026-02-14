@@ -5,7 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import MainLayout from "../components/templates/MainLayout";
 import { Providers } from "../components/templates/Providers";
-import { getProfile, getTechnologies } from "../lib/hygraph.server";
+import { getProfile } from "../lib/hygraph.server";
 import AppContextProvider from "../context/AppContextProvider";
 
 const geistSans = Geist({
@@ -31,7 +31,6 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const profile = await getProfile();
-	const technologies = await getTechnologies();
 
 	return (
 		<html lang="en" {...mantineHtmlProps} suppressHydrationWarning>
@@ -40,7 +39,7 @@ export default async function RootLayout({
 			</head>
 			<body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<Providers>
-					<AppContextProvider profile={profile} technologies={technologies}>
+					<AppContextProvider profile={profile}>
 						<MainLayout>{children}</MainLayout>
 					</AppContextProvider>
 				</Providers>

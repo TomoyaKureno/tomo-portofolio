@@ -1,5 +1,5 @@
 query getTechnologies {
-  technologies {
+  technologies(first: 1000) {
     id
     name
     slug
