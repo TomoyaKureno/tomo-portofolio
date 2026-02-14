@@ -3,9 +3,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { GetProjectsPaginationQuery } from "@/src/gql/graphql";
 import { Search } from "lucide-react";
-import { Button, Flex, Grid, GridCol, Input, ScrollArea, Text } from "@mantine/core";
+import { Button, Flex, Grid, type GridProps, GridCol, Input, ScrollArea, Text } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { motion } from "framer-motion";
+import type { ComponentType } from "react";
 import ProjectCard from "@/src/components/molecules/ProjectCard";
 import MainContent from "@/src/components/organisms/MainContent";
 
@@ -16,7 +17,7 @@ type Props = {
 
 const PAGE_SIZE = 6;
 const MotionDiv = motion.div;
-const MotionGrid = motion.create(Grid);
+const MotionGrid = motion.create(Grid as unknown as ComponentType<GridProps>);
 
 export default function ProjectsClient({ initialProjects, categories }: Props) {
   const [search, setSearch] = useState("");
@@ -63,6 +64,11 @@ export default function ProjectsClient({ initialProjects, categories }: Props) {
             placeholder="Search Projects..."
             radius="md"
             leftSection={<Search size={18} />}
+            styles={{
+              input: {
+                borderColor: "var(--app-border-color)",
+              },
+            }}
             value={search}
             onChange={(event) => {
               const value = event.currentTarget.value;
@@ -110,15 +116,17 @@ export default function ProjectsClient({ initialProjects, categories }: Props) {
         </MotionGrid>
 
         {filteredProjects.length === 0 && (
-          <Text c="gray.5" ta="center" mt="xl">
+          <Flex h={"50dvh"} justify={"center"} align={"center"}>
+            <Text c="gray.5" ta="center" mt="xl">
             No projects found.
           </Text>
+          </Flex>
         )}
       </MotionDiv>
 
       <div ref={loadMoreRef}>
         {visibleCount < filteredProjects.length && (
-          <Text c="dimmed" ta="center">
+          <Text c="gray.5" ta="center">
             Loading...
           </Text>
         )}

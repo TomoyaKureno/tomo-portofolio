@@ -3,6 +3,7 @@
 import MainContent from "@/src/components/organisms/MainContent";
 import IconBadge from "@/src/components/atoms/IconBadge";
 import { useAppContext } from "@/src/hooks/useAppContext";
+import useStableColorScheme from "@/src/hooks/useStableColorScheme";
 import {
   Alert,
   Box,
@@ -44,8 +45,11 @@ type SubmitState = {
 const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", initialMessage = "" }) => {
   const profile = useAppContext().profile;
   const theme = useMantineTheme();
+  const { isDark } = useStableColorScheme("dark");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const iconBadgeBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
+  const iconBadgeColor = isDark ? "blue.4" : "blue.7";
 
   const [mail, setMail] = useState<MailState>({
     name: "",
@@ -141,7 +145,7 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
               <Stack gap="lg">
                 <Title order={3}>Get In Touch</Title>
 
-                <Card bg="dark.5" withBorder>
+                <Card bg="var(--app-surface-content)" withBorder>
                   <Stack gap="md">
                     <Group gap="sm" align="start">
                       <IconBadge
@@ -149,8 +153,8 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
                         p="sm"
                         bdrs="md"
                         w="fit-content"
-                        bg={alpha(theme.colors.blue[9], 0.6)}
-                        c="blue.5"
+                        bg={iconBadgeBg}
+                        c={iconBadgeColor}
                       />
                       <Box>
                         <Text c="gray.5" size="xs">
@@ -166,8 +170,8 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
                         p="sm"
                         bdrs="md"
                         w="fit-content"
-                        bg={alpha(theme.colors.blue[9], 0.6)}
-                        c="blue.5"
+                        bg={iconBadgeBg}
+                        c={iconBadgeColor}
                       />
                       <Box>
                         <Text c="gray.5" size="xs">
@@ -183,8 +187,8 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
                         p="sm"
                         bdrs="md"
                         w="fit-content"
-                        bg={alpha(theme.colors.blue[9], 0.6)}
-                        c="blue.5"
+                        bg={iconBadgeBg}
+                        c={iconBadgeColor}
                       />
                       <Box>
                         <Text c="gray.5" size="xs">
@@ -200,7 +204,7 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
           </Box>
 
           <motion.div variants={fadeUpVariants} style={{ flex: 1 }}>
-            <Card bg="dark.5" withBorder flex={1}>
+            <Card bg="var(--app-surface-content)" withBorder flex={1}>
               <form
                 onSubmit={(event) => {
                   event.preventDefault();

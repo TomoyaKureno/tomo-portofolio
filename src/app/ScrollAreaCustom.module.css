@@ -2,16 +2,16 @@
   width: 50%;
   margin: 0 auto;
   height: 8px;
-  border-radius: 9999px; 
-  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  background-color: var(--mantine-color-dark-3);
 }
 
 .scrollThumb {
-  background-color: rgba(100, 180, 255, 0.6);
+  background-color: var(--mantine-color-blue-4);
   border-radius: 9999px;
   transition: background 0.2s ease;
 }
 
 .scrollThumb:hover {
-  background-color: rgba(100, 180, 255, 0.9);
+  background-color: var(--mantine-color-blue-5);
 }

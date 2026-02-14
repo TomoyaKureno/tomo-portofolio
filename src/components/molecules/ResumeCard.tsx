@@ -1,12 +1,13 @@
 "use client";
 
-/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import { formatDate } from "@/src/utils";
-import { Box, Card, CardProps, Flex, Group, List, Text, Title } from "@mantine/core";
+import { Box, Card, CardProps, Flex, Group, List, Text } from "@mantine/core";
 import { useElementSize } from "@mantine/hooks";
 import { motion } from "framer-motion";
 import { GetResumesQuery } from "@/src/gql/graphql";
+import Image from "next/image";
+import type { VisitAnimationMode } from "@/src/hooks/useVisitAnimationGate";
 
 type Education = GetResumesQuery["educations"][number];
 type Experience = GetResumesQuery["experiences"][number];
@@ -15,10 +16,12 @@ type Resume = Education | Experience;
 type ResumeCardProps = {
   resumeData: Resume;
   cardProps?: CardProps;
+  animationMode?: VisitAnimationMode;
 };
 
-const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps }) => {
+const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps, animationMode = "scroll" }) => {
   const { resume: data } = resumeData;
+  const organizationLogoUrl = data.organizationLogo?.url;
   const { ref, height } = useElementSize();
   const maxHeight = 300;
 
@@ -85,7 +88,7 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps }) => {
       if (typeof value === "string") {
         return (
           <List.Item key={index}>
-            <Text c="dimmed" fz="h5" fs="italic" fw={600}>
+            <Text c="gray.3" fz="sm" fw={500}>
               {value}
             </Text>
           </List.Item>
@@ -102,10 +105,10 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps }) => {
             }}
           >
             <Group justify="space-between" gap="xs" wrap="nowrap">
-              <Text c="dimmed" fz="h5" fs="italic" fw={600}>
+              <Text c="gray.3" fz="sm" fw={500}>
                 {(value as any).record}
               </Text>
-              <Text c="dimmed" fz="h5" fs="italic" fw={600}>
+              <Text c="gray.4" fz="sm" fw={500}>
                 {formatDate((value as any).startDate, { year: "numeric" })} -{" "}
                 {(value as any).endDate ? formatDate((value as any).endDate, { year: "numeric" }) : "Present"}
               </Text>
@@ -126,9 +129,9 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps }) => {
               itemLabel: "w-full",
             }}
           >
-            <Title order={5} fw={600} mb={8}>
+            <Text fw={700} fz="md" c="gray.1" mb={8}>
               {value.label}
-            </Title>
+            </Text>
 
             {vHasText && (
               <List withPadding={level > 0} listStyleType="disc" spacing={8} center>
@@ -158,6 +161,19 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps }) => {
 
   const measuredHeight = height > 0 ? height : maxHeight;
   const animatedMaxHeight = isOverflow ? (isExpand ? measuredHeight : maxHeight) : measuredHeight;
+  const motionProps =
+    animationMode === "eager"
+      ? {
+          initial: { opacity: 0, y: 22 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.3, ease: "easeOut" as const },
+        }
+      : {
+          initial: { opacity: 0, y: 22 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true, amount: 0.25 },
+          transition: { duration: 0.3, ease: "easeOut" as const },
+        };
 
   return (
     <Flex gap="lg" ps={8}>
@@ -169,17 +185,14 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps }) => {
 
       <motion.div
         style={{ width: "100%" }}
-        initial={{ opacity: 0, y: 22 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        {...motionProps}
       >
         <Card
           shadow="sm"
           radius="md"
           p="md"
           pb={isOverflow ? 0 : "md"}
-          bg="dark.5"
+          bg="var(--app-surface-content)"
           mb="lg"
           pos="relative"
           withBorder
@@ -193,23 +206,23 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps }) => {
             transition={{ duration: 0.35, ease: "easeInOut" }}
           >
             <div ref={ref}>
-              <Flex direction="column" gap={8} c="white">
+              <Flex direction="column" gap={8} c="gray.1" pos={"relative"}>
                 <Group justify="space-between">
-                  <Text fz="h4" fw={700}>
+                  <Text fz="xl" fw={700} c="gray.0">
                     {data.organization}
                   </Text>
-                  <Text fz="h5" fs="italic" fw={600}>
+                  <Text fz="sm" fw={500} c="gray.4">
                     {formatDate(data.startDate, { month: "long", year: "numeric" })} -{" "}
                     {data.endDate ? formatDate(data.endDate, { month: "long", year: "numeric" }) : "Present"}
                   </Text>
                 </Group>
 
                 <Group justify="space-between">
-                  <Text fz="h5" fs="italic" fw={600}>
+                  <Text fz="md" fw={600} c="blue.3">
                     {data.role}
                   </Text>
                   {isEducation(resumeData) && resumeData.gpa != null && (
-                    <Text fz="h5" fs="italic" fw={700} c="blue.5">
+                    <Text fz="md" fw={700} c="blue.4">
                       GPA: {formatScore(resumeData.gpa)}
                       {resumeData.maxScore != null && `/${formatScore(resumeData.maxScore)}`}
                     </Text>
@@ -220,10 +233,36 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps }) => {
 
                 {isOverflow && (
                   <Flex w="100%" pb="md" align="end" justify="center">
-                    <Text onClick={() => setIsExpand(false)} c="white" fw={600} style={{ cursor: "pointer" }}>
+                    <Text onClick={() => setIsExpand(false)} c="blue.3" fz="sm" fw={600} style={{ cursor: "pointer" }}>
                       Show Less
                     </Text>
                   </Flex>
+                )}
+
+                {organizationLogoUrl && (
+                  <Box
+                    pos="absolute"
+                    top={20}
+                    right={10}
+                    w={
+                      isEducation(resumeData)
+                        ? { base: 156, sm: 204, md: 252 }
+                        : { base: 132, sm: 172, md: 220 }
+                    }
+                    style={{ aspectRatio: "3 / 1", opacity: 0.2, pointerEvents: "none" }}
+                  >
+                    <Image
+                      src={organizationLogoUrl}
+                      alt={`${data.organization} logo`}
+                      fill
+                      sizes={
+                        isEducation(resumeData)
+                          ? "(max-width: 48em) 156px, (max-width: 62em) 204px, 252px"
+                          : "(max-width: 48em) 132px, (max-width: 62em) 172px, 220px"
+                      }
+                      style={{ objectFit: "contain", objectPosition: "right top" }}
+                    />
+                  </Box>
                 )}
               </Flex>
             </div>
@@ -240,10 +279,10 @@ const ResumeCard: React.FC<ResumeCardProps> = ({ resumeData, cardProps }) => {
               align="end"
               justify="center"
               style={{
-                background: "linear-gradient(180deg, transparent, #242424)",
+                background: "linear-gradient(180deg, transparent, var(--app-surface-content))",
               }}
             >
-              <Text onClick={() => setIsExpand(true)} c="white" fw={600} style={{ cursor: "pointer" }}>
+              <Text onClick={() => setIsExpand(true)} c="blue.3" fz="sm" fw={600} style={{ cursor: "pointer" }}>
                 Show More
               </Text>
             </Flex>

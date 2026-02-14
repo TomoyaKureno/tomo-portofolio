@@ -16,7 +16,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ cardProps, iconBadge,
   return (
     <Box pos="relative" pt="22px" h={"100%"}>
       <IconBadge left="16px" top="0px" pos="absolute" {...iconBadge} style={{ zIndex: 10 }} />
-      <Card shadow="sm" radius="md" p="md" bg="dark.5" withBorder {...cardProps}>
+      <Card shadow="sm" radius="md" p="md" bg="var(--app-surface-content)" withBorder {...cardProps}>
         <Text ms="80px" fz={12} fw={500} c="gray.6" {...title}>
           {title.text}
         </Text>

@@ -1,9 +1,63 @@
 @import "tailwindcss";
 
-/* :root {
+:root,
+:root[data-mantine-color-scheme="dark"] {
+  --background: #121419;
+  --foreground: #f5f5f7;
+  --app-surface-parent: #1a1d24;
+  --app-surface-content: #22262f;
+  --app-surface-content-soft: #2b2f38;
+  --app-surface-content-strong: #1a1d24;
+  --app-surface-glass: rgba(22, 24, 31, 0.82);
+  --app-surface-elevated: rgba(28, 30, 38, 0.9);
+  --app-border-color: rgba(255, 255, 255, 0.08);
+  --app-shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.28);
+  --app-shadow-contact-color: rgba(0, 0, 0, 0.28);
+  --app-outline-hover: rgba(255, 255, 255, 0.03);
+  --mantine-shadow-sm: var(--app-shadow-sm);
+  --mantine-color-default-border: var(--app-border-color);
+}
+
+:root[data-mantine-color-scheme="light"] {
   --background: #ffffff;
-  --foreground: #171717;
-} */
+  --foreground: #1d1d1f;
+  --app-surface-parent: #ffffff !important;
+  --app-surface-content: #f5f5f7 !important;
+  --app-surface-content-soft: #fafafc !important;
+  --app-surface-content-strong: #ececf1 !important;
+  --app-surface-glass: rgba(249, 249, 251, 0.9) !important;
+  --app-surface-elevated: rgba(245, 245, 247, 0.96) !important;
+  --app-border-color: rgba(210, 210, 215, 0.92) !important;
+  --app-shadow-sm: 0 10px 28px rgba(15, 23, 42, 0.1) !important;
+  --app-shadow-contact-color: rgba(15, 23, 42, 0.1) !important;
+  --app-outline-hover: rgba(142, 142, 147, 0.12) !important;
+  --mantine-shadow-sm: var(--app-shadow-sm) !important;
+  --mantine-color-default-border: var(--app-border-color) !important;
+
+  /* Remap "dark" tokens to Apple-like light surfaces used by existing components */
+  --mantine-color-dark-0: #ffffff !important;
+  --mantine-color-dark-1: #fcfcfd !important;
+  --mantine-color-dark-2: #fafafc !important;
+  --mantine-color-dark-3: #f8f8fa !important;
+  --mantine-color-dark-4: #f7f7f9 !important;
+  --mantine-color-dark-5: #f5f5f7 !important;
+  --mantine-color-dark-6: #ececf1 !important;
+  --mantine-color-dark-7: #e6e6eb !important;
+  --mantine-color-dark-8: #dfdfe4 !important;
+  --mantine-color-dark-9: #d2d2d7 !important;
+
+  /* Remap gray tokens so text colors remain readable on light surfaces */
+  --mantine-color-gray-0: #1d1d1f !important;
+  --mantine-color-gray-1: #2c2c2e !important;
+  --mantine-color-gray-2: #3a3a3c !important;
+  --mantine-color-gray-3: #515154 !important;
+  --mantine-color-gray-4: #6e6e73 !important;
+  --mantine-color-gray-5: #86868b !important;
+  --mantine-color-gray-6: #8e8e93 !important;
+  --mantine-color-gray-7: #a1a1aa !important;
+  --mantine-color-gray-8: #d2d2d7 !important;
+  --mantine-color-gray-9: #e8e8ed !important;
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -12,17 +66,30 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  min-height: 100dvh;
+  color: var(--foreground);
 }
 
-/* body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
+html[data-mantine-color-scheme="dark"] body {
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgba(10, 132, 255, 0.16), transparent 60%),
+    radial-gradient(900px 540px at -15% 0%, rgba(255, 255, 255, 0.06), transparent 62%),
+    var(--background);
+}
 
+html[data-mantine-color-scheme="light"] body {
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgba(10, 132, 255, 0.14), transparent 58%),
+    radial-gradient(900px 540px at -15% 0%, rgba(209, 209, 214, 0.32), transparent 62%),
+    var(--background);
+}
 
+html[data-mantine-color-scheme="light"] .mantine-Card-root[data-with-border],
+html[data-mantine-color-scheme="light"] .mantine-Paper-root[data-with-border] {
+  border-color: var(--app-border-color) !important;
+}
+
+a {
+  color: inherit;
+}

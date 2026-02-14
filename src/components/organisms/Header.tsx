@@ -3,14 +3,17 @@
 import { navigationLinks } from "@/src/lib/constantData";
 import { getActiveNavPath, normalizePath } from "@/src/lib/navigation";
 import { interactiveCardTransition } from "@/src/lib/motion";
+import useStableColorScheme from "@/src/hooks/useStableColorScheme";
 import { Box, Card, Flex, Text, useMantineTheme } from "@mantine/core";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ThemeToggle from "../atoms/ThemeToggle";
 
 const Header = () => {
   const pathname = usePathname();
   const theme = useMantineTheme();
+  const { isDark } = useStableColorScheme("dark");
   const activePath = getActiveNavPath(pathname);
 
   return (
@@ -27,11 +30,15 @@ const Header = () => {
         borderTopRightRadius: "var(--mantine-radius-md)",
         borderBottomRightRadius: "0px",
         borderBottomLeftRadius: "var(--mantine-radius-md)",
+        background: "var(--app-surface-glass)",
+        borderColor: "var(--app-border-color)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
         zIndex: 20,
         transform: "translate(1px, -1px)",
       }}
     >
-      <Flex px="lg" py="md" gap="sm" bg="blue.7" c="white" justify="flex-end" align="center">
+      <Flex px="lg" py="md" gap="sm" justify="flex-end" align="center">
         {Object.entries(navigationLinks).map(([href, nav]) => {
           const isActive = normalizePath(href) === activePath;
 
@@ -46,12 +53,12 @@ const Header = () => {
                   px="sm"
                   py={6}
                   bdrs="md"
-                  bg={isActive ? "rgba(255,255,255,0.2)" : "transparent"}
+                  bg={isActive ? "rgba(10,132,255,0.22)" : "transparent"}
                   style={{
-                    border: `1px solid ${isActive ? theme.colors.yellow[2] : "transparent"}`,
+                    border: `1px solid ${isActive ? theme.colors.blue[4] : "transparent"}`,
                   }}
                 >
-                  <Text fw={isActive ? 700 : 600} c={isActive ? "yellow.2" : "white"} fz="sm">
+                  <Text fw={isActive ? 700 : 600} c={isActive ? "blue.4" : isDark ? "gray.1" : "gray.2"} fz="sm">
                     {nav.label}
                   </Text>
                 </Box>
@@ -59,6 +66,8 @@ const Header = () => {
             </Link>
           );
         })}
+
+        <ThemeToggle size="lg" withTooltip />
       </Flex>
     </Card>
   );

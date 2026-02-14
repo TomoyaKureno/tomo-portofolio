@@ -1,3 +1,4 @@
+import useStableColorScheme from "@/src/hooks/useStableColorScheme";
 import { Badge, Box, Card, Flex, Text } from "@mantine/core";
 import { Layers } from "lucide-react";
 import { GetProjectsPaginationQuery } from "@/src/gql/graphql";
@@ -13,12 +14,16 @@ type ProjectCardProps = {
 const MotionDiv = motion.div;
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ data }) => {
+  const { isDark } = useStableColorScheme("dark");
   const techLen = data.technologies.length;
   const category = data.categories[0]?.name ?? "Uncategorized";
+  const imageOverlay = isDark
+    ? "linear-gradient(180deg, rgba(8, 9, 12, 0.24) 0%, rgba(8, 9, 12, 0.5) 48%, rgba(8, 9, 12, 0.86) 100%)"
+    : "linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.22) 44%, rgba(17, 17, 17, 0.54) 100%)";
   const cardContent = (
     <MotionDiv whileHover={{ y: -6, scale: 1.01 }} whileTap={{ scale: 0.996 }} transition={interactiveCardTransition}>
       <Card
-        bg="dark.5"
+        bg="var(--app-surface-content)"
         shadow="sm"
         padding={0}
         radius="md"
@@ -27,7 +32,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ data }) => {
         style={{
           cursor: data.slug ? "pointer" : "default",
           background:
-            "linear-gradient(160deg, rgba(33,38,56,0.94) 0%, rgba(24,29,42,0.96) 72%, rgba(19,24,35,0.98) 100%)",
+            "linear-gradient(160deg, var(--app-surface-content-soft) 0%, var(--app-surface-content) 72%, var(--app-surface-content-strong) 100%)",
         }}
       >
         <Card.Section>
@@ -56,8 +61,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ data }) => {
                 bottom={-2}
                 className="pointer-events-none"
                 style={{
-                  background:
-                    "linear-gradient(180deg, rgba(6,10,16,0.4) 0%, rgba(6,10,16,0.55) 48%, rgba(6,10,16,0.9) 100%)",
+                  background: imageOverlay,
                 }}
               />
             </Box>
@@ -81,7 +85,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ data }) => {
             {data.name}
           </Text>
 
-          <Text ta="justify" size="sm" fw={500} c="dimmed" lineClamp={3} lh={1.35}>
+          <Text ta="justify" size="sm" fw={500} c="gray.4" lineClamp={3} lh={1.35}>
             {data.overview}
           </Text>
 

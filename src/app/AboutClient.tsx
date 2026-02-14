@@ -1,8 +1,10 @@
 "use client";
 
-import { alpha, Box, Grid, GridCol, Text, useMantineTheme } from "@mantine/core";
+import useStableColorScheme from "@/src/hooks/useStableColorScheme";
+import { alpha, Box, type BoxProps, Grid, GridCol, Text, useMantineTheme } from "@mantine/core";
 import * as LucideIcons from "lucide-react";
 import { motion } from "framer-motion";
+import type { ComponentType } from "react";
 
 import { useAppContext } from "@/src/hooks/useAppContext";
 import MainContent from "../components/organisms/MainContent";
@@ -16,10 +18,13 @@ type AboutClientProps = {
   skills: GetSkillsQuery["skills"];
 };
 
-const MotionBox = motion.create(Box);
+const MotionBox = motion.create(Box as unknown as ComponentType<BoxProps>);
 const AboutClient: React.FC<AboutClientProps> = ({ skills }) => {
   const theme = useMantineTheme();
+  const { isDark } = useStableColorScheme("dark");
   const profile = useAppContext().profile;
+  const iconBadgeBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
+  const iconBadgeColor = isDark ? "blue.4" : "blue.7";
 
   return (
     <MotionBox variants={staggerContainerVariants} initial="hidden" animate="visible">
@@ -44,11 +49,11 @@ const AboutClient: React.FC<AboutClientProps> = ({ skills }) => {
                     p: "sm",
                     bdrs: "md",
                     w: "fit-content",
-                    bg: alpha(theme.colors.blue[9], 0.6),
-                    c: "blue.5",
+                    bg: iconBadgeBg,
+                    c: iconBadgeColor,
                     mt: 4,
                   }}
-                  title={{ text: data.name, fz: "h4", fw: 600, c: "white", mb: 4 }}
+                  title={{ text: data.name, fz: "h4", fw: 600, c: "gray.0", mb: 4 }}
                   description={{ text: data.description }}
                 />
               </GridCol>
@@ -90,14 +95,14 @@ const AboutClient: React.FC<AboutClientProps> = ({ skills }) => {
                       p: "sm",
                       bdrs: "md",
                       w: "fit-content",
-                      bg: alpha(theme.colors.blue[9], 0.6),
-                      c: "blue.5",
+                      bg: iconBadgeBg,
+                      c: iconBadgeColor,
                     }}
                     title={{
                       text: data.name,
                       fz: "h4",
                       fw: 600,
-                      c: "white",
+                      c: "gray.0",
                       mb: 4,
                     }}
                     description={{ text: data.description }}

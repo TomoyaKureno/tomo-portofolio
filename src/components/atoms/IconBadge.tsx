@@ -10,10 +10,20 @@ export type IconBadgeProps = {
 } & BoxProps;
 
 const IconBadge: React.FC<IconBadgeProps> = ({ icon, ...boxProps }) => {
+    const { style, ...restBoxProps } = boxProps;
     const LucideIcon = LucideIcons[icon.name as IconName] as LucideIcon;
 
     return (
-        <Box {...boxProps}>
+        <Box
+            {...restBoxProps}
+            style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "1px solid var(--app-border-color)",
+                ...style,
+            }}
+        >
             <LucideIcon {...icon} />
         </Box>
     );

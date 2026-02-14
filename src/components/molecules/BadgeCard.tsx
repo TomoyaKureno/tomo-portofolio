@@ -38,15 +38,15 @@ const BadgeCard: React.FC<BadgeCardProps> = ({
       transition={interactiveCardTransition}
       style={{ height: "100%" }}
     >
-      <Card shadow="sm" radius="md" p="md" bg="dark.5" withBorder {...cardProps}>
+      <Card shadow="sm" radius="md" p="md" bg="var(--app-surface-content)" withBorder {...cardProps}>
         <Group wrap="nowrap" {...containerContentProps}>
           <IconBadge {...iconBadge} />
           <Box>
-            <Text fz={12} fw={500} c="gray.6" {...titleProps}>
+            <Text fz={12} fw={600} c="gray.5" {...titleProps}>
               {titleText}
             </Text>
             {description && (
-              <Text fz={14} fw={500} c="gray.5" {...descriptionProps}>
+              <Text fz={14} fw={500} c="gray.2" {...descriptionProps}>
                 {descriptionText}
               </Text>
             )}

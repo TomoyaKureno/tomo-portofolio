@@ -1,6 +1,7 @@
 "use client";
 
 import { navigationLinks } from "@/src/lib/constantData";
+import useStableColorScheme from "@/src/hooks/useStableColorScheme";
 import { getActiveNavPath, normalizePath } from "@/src/lib/navigation";
 import { interactiveCardTransition } from "@/src/lib/motion";
 import { Box, Card, Flex, Text, useMantineTheme } from "@mantine/core";
@@ -21,6 +22,7 @@ const navIcons: Record<string, ComponentType<{ size?: number }>> = {
 export default function MobileTabBar() {
   const pathname = usePathname();
   const theme = useMantineTheme();
+  const { isDark } = useStableColorScheme("dark");
   const activePath = getActiveNavPath(pathname);
 
   return (
@@ -38,7 +40,19 @@ export default function MobileTabBar() {
         paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom, 0px))",
       }}
     >
-      <Card withBorder bg="dark.6" shadow="sm" p={6} radius="md" style={{ pointerEvents: "auto" }}>
+      <Card
+        withBorder
+        bg="var(--app-surface-glass)"
+        shadow="sm"
+        p={6}
+        radius="md"
+        style={{
+          pointerEvents: "auto",
+          borderColor: "var(--app-border-color)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+        }}
+      >
         <Flex justify="space-between" align="center" gap={4}>
           {Object.entries(navigationLinks).map(([href, nav]) => {
             const Icon = navIcons[href] ?? UserRound;
@@ -55,13 +69,13 @@ export default function MobileTabBar() {
                     py={8}
                     px={4}
                     bdrs="md"
-                    bg={isActive ? "rgba(255,255,255,0.2)" : "transparent"}
+                    bg={isActive ? "rgba(10,132,255,0.22)" : "transparent"}
                     style={{
-                      border: `1px solid ${isActive ? theme.colors.yellow[2] : "transparent"}`,
+                      border: `1px solid ${isActive ? theme.colors.blue[4] : "transparent"}`,
                     }}
                   >
                     <Icon size={16} />
-                    <Text size="xs" fw={isActive ? 700 : 600} c={isActive ? "yellow.2" : "gray.2"}>
+                    <Text size="xs" fw={isActive ? 700 : 600} c={isActive ? "blue.4" : isDark ? "gray.2" : "gray.3"}>
                       {nav.label}
                     </Text>
                   </Flex>

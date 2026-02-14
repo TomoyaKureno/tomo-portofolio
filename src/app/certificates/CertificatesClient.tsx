@@ -11,6 +11,7 @@ import {
   Card,
   Flex,
   Grid,
+  type GridProps,
   GridCol,
   Modal,
   ScrollArea,
@@ -21,6 +22,7 @@ import { Download, ExternalLink } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import type { ComponentType } from "react";
 import { fadeUpVariants, staggerContainerVariants } from "@/src/lib/motion";
 
 type CertificateCategory = {
@@ -36,7 +38,7 @@ type CertificatesClientProps = {
 
 const PAGE_SIZE = 6;
 const MotionDiv = motion.div;
-const MotionGrid = motion.create(Grid);
+const MotionGrid = motion.create(Grid as unknown as ComponentType<GridProps>);
 
 const CertificatesClient: React.FC<CertificatesClientProps> = ({ certificates, categories }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -111,7 +113,7 @@ const CertificatesClient: React.FC<CertificatesClientProps> = ({ certificates, c
             ))}
           </MotionGrid>
         ) : (
-          <Card bg="dark.5" withBorder>
+          <Card bg="var(--app-surface-content)" withBorder>
             <Text c="gray.5">No certificates found.</Text>
           </Card>
         )}
@@ -133,7 +135,7 @@ const CertificatesClient: React.FC<CertificatesClientProps> = ({ certificates, c
         >
           {selectedCertificate && (
             <Flex direction="column" gap="lg">
-              <Card bg="dark.5" withBorder p="md">
+              <Card bg="var(--app-surface-content)" withBorder p="md">
                 <Flex justify="space-between" align="start" gap="md">
                   <Box>
                     <Title order={4}>{selectedCertificate.issuer}</Title>
@@ -144,7 +146,7 @@ const CertificatesClient: React.FC<CertificatesClientProps> = ({ certificates, c
 
                   <Flex gap="xs" wrap="wrap" justify="flex-end">
                     {selectedCertificate.categories.map((category) => (
-                      <Badge key={category.id} variant="outline" color="blue.5" style={{ textTransform: "none" }}>
+                      <Badge key={category.id} variant="outline" color="blue" style={{ textTransform: "none" }}>
                         {category.name}
                       </Badge>
                     ))}
@@ -162,7 +164,7 @@ const CertificatesClient: React.FC<CertificatesClientProps> = ({ certificates, c
                 />
               </Box>
 
-              <Card bg="dark.5" withBorder p="md">
+              <Card bg="var(--app-surface-content)" withBorder p="md">
                 <Flex direction="column" gap="sm">
                   <Text fw={600}>Description</Text>
                   <Text c="gray.4">{selectedCertificate.description}</Text>

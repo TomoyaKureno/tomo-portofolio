@@ -1,4 +1,5 @@
 import { GetCertificatesQuery } from "@/src/gql/graphql";
+import useStableColorScheme from "@/src/hooks/useStableColorScheme";
 import { formatDate } from "@/src/utils";
 import { Badge, Box, Card, Flex, Text } from "@mantine/core";
 import { Award, Calendar, ShieldCheck } from "lucide-react";
@@ -16,12 +17,16 @@ type CertificateCardProps = {
 const MotionDiv = motion.div;
 
 const CertificateCard: React.FC<CertificateCardProps> = ({ data, onClick }) => {
+  const { isDark } = useStableColorScheme("dark");
   const issuedAt = formatDate(String(data.issued), { month: "short", year: "numeric" });
+  const imageOverlay = isDark
+    ? "linear-gradient(180deg, rgba(8, 9, 12, 0.28) 0%, rgba(8, 9, 12, 0.52) 52%, rgba(8, 9, 12, 0.88) 100%)"
+    : "linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.24) 48%, rgba(17, 17, 17, 0.58) 100%)";
 
   return (
     <MotionDiv whileHover={{ y: -8, scale: 1.012 }} whileTap={{ scale: 0.995 }} transition={interactiveCardTransition}>
       <Card
-        bg="dark.5"
+        bg="var(--app-surface-content)"
         shadow="sm"
         padding={0}
         radius="md"
@@ -30,7 +35,7 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data, onClick }) => {
           cursor: "pointer",
           overflow: "hidden",
           background:
-            "linear-gradient(165deg, rgba(35,40,61,0.95) 0%, rgba(25,30,46,0.95) 70%, rgba(18,24,36,0.95) 100%)",
+            "linear-gradient(165deg, var(--app-surface-content-soft) 0%, var(--app-surface-content) 70%, var(--app-surface-content-strong) 100%)",
         }}
         className="group"
         onClick={onClick}
@@ -61,8 +66,7 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data, onClick }) => {
                 bottom={-2}
                 className="pointer-events-none"
                 style={{
-                  background:
-                    "linear-gradient(180deg, rgba(8,12,18,0.42) 0%, rgba(8,12,18,0.58) 52%, rgba(8,12,18,0.92) 100%)",
+                  background: imageOverlay,
                 }}
               />
             </Box>

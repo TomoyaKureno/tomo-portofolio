@@ -31,7 +31,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   if (isStandaloneProjectDetail) {
     return (
-      <Box bg="dark.7" mih="100dvh" px="md" py="xl">
+      <Box bg="var(--background)" mih="100dvh" px="md" py="xl">
         <PageTransitionWrapper>
           <Box maw={1280} mx="auto">
             {children}
@@ -48,7 +48,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       h={{ base: "auto", md: "100dvh" }}
       mih="100dvh"
       mx={{ xl: "auto" }}
-      bg="dark.7"
       px={{ base: "sm", md: "md" }}
       style={{ overflow: "hidden" }}
     >
@@ -61,7 +60,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         py={{ base: "sm", md: "xl" }}
         miw={0}
       >
-        <Card shadow="sm" radius="md" p={0} bg="dark.6" flex={1} h="100%" withBorder>
+        <Card shadow="sm" radius="md" p={0} bg="var(--app-surface-parent)" flex={1} h="100%" withBorder>
           <Flex h="100%" direction="column" pos="relative" style={{ overflow: "hidden" }}>
             <Header />
 
