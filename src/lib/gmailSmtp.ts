@@ -37,10 +37,10 @@ export async function sendContactMail(payload: ContactMailPayload): Promise<void
     throw new Error("Missing GMAIL_APP_PASSWORD environment variable.");
   }
 
-  await sendViaGmailSmtp(payload);
+  await sendViaGmailSmtp(payload, GMAIL_APP_PASSWORD);
 }
 
-async function sendViaGmailSmtp(payload: ContactMailPayload): Promise<void> {
+async function sendViaGmailSmtp(payload: ContactMailPayload, gmailAppPassword: string): Promise<void> {
   const safeName = sanitizeHeaderValue(payload.name) || "Portfolio Visitor";
   const safeEmail = sanitizeHeaderValue(payload.email);
   const safeSubject = sanitizeHeaderValue(payload.subject) || "New Contact Message";
@@ -185,7 +185,7 @@ async function sendViaGmailSmtp(payload: ContactMailPayload): Promise<void> {
         sendCommand(Buffer.from(GMAIL_USER, "utf8").toString("base64"));
         await expectCode([334]);
 
-        sendCommand(Buffer.from(GMAIL_APP_PASSWORD, "utf8").toString("base64"));
+        sendCommand(Buffer.from(gmailAppPassword, "utf8").toString("base64"));
         await expectCode([235]);
 
         sendCommand(`MAIL FROM:<${GMAIL_USER}>`);

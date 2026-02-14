@@ -34,8 +34,6 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data, onClick }) => {
         style={{
           cursor: "pointer",
           overflow: "hidden",
-          background:
-            "linear-gradient(165deg, var(--app-surface-content-soft) 0%, var(--app-surface-content) 70%, var(--app-surface-content-strong) 100%)",
         }}
         className="group"
         onClick={onClick}

@@ -4,7 +4,7 @@ import { Box, Card, Flex, ScrollArea } from "@mantine/core";
 import React, { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import ProfileSidebar from "../organisms/ProfileSidebar";
-import Header from "../organisms/Header";
+import Navbar from "../organisms/Navbar";
 import MobileTabBar from "../organisms/MobileTabBar";
 import PageTransitionWrapper from "@/src/components/templates/PageTransitionWrapper";
 import MainContentWrapper from "./MainContentWrapper";
@@ -62,7 +62,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       >
         <Card shadow="sm" radius="md" p={0} bg="var(--app-surface-parent)" flex={1} h="100%" withBorder>
           <Flex h="100%" direction="column" pos="relative" style={{ overflow: "hidden" }}>
-            <Header />
+            <Navbar />
 
             <ScrollArea type="never" flex={1} mih={0} viewportRef={viewportRef}>
               <PageTransitionWrapper>

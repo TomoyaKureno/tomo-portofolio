@@ -20,12 +20,17 @@ type ResumesClientProps = {
 type ResumeSectionProps = {
   title: string;
   icon: "GraduationCap" | "Briefcase";
-  items: GetResumesQuery["educations"] | GetResumesQuery["experiences"];
   animationMode: VisitAnimationMode;
 };
+type ResumeItem = GetResumesQuery["educations"][number] | GetResumesQuery["experiences"][number];
 
 const MotionBox = motion.create(Box as unknown as ComponentType<BoxProps>);
-const ResumeSection: React.FC<ResumeSectionProps> = ({ title, icon, items, animationMode }) => {
+const ResumeSection = <T extends ResumeItem,>({
+  title,
+  icon,
+  items,
+  animationMode,
+}: ResumeSectionProps & { items: T[] }) => {
   const theme = useMantineTheme();
   const { isDark } = useStableColorScheme("dark");
   const iconBadgeBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);

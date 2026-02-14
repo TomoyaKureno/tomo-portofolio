@@ -1,7 +1,7 @@
 "use client";
 
 import useStableColorScheme from "@/src/hooks/useStableColorScheme";
-import { alpha, Badge, Box, type BoxProps, Flex, Grid, GridCol, Text, useMantineTheme } from "@mantine/core";
+import { alpha, Badge, Box, type BoxProps, Card, Flex, Grid, GridCol, Text, useMantineTheme } from "@mantine/core";
 import * as LucideIcons from "lucide-react";
 import { motion } from "framer-motion";
 import type { ComponentType } from "react";
@@ -68,14 +68,13 @@ const AboutClient: React.FC<AboutClientProps> = ({ skills, technologies }) => {
           <Text fz="h2" fw="bold">
             Technologies I Use
           </Text>
-          <Box
+          <Card
             mt="lg"
             p="md"
-            bdrs="md"
             bg="var(--app-surface-content)"
-            style={{
-              border: "1px solid var(--app-border-color)",
-            }}
+            radius="md"
+            shadow="sm"
+            withBorder
           >
             <Flex gap="sm" wrap="wrap">
             {(technologies ?? []).map((technology) => (
@@ -108,7 +107,7 @@ const AboutClient: React.FC<AboutClientProps> = ({ skills, technologies }) => {
               </motion.a>
             ))}
             </Flex>
-          </Box>
+          </Card>
         </MotionBox>
 
         {/* <MotionBox variants={fadeUpVariants}>

@@ -31,8 +31,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ data }) => {
         className="group overflow-hidden"
         style={{
           cursor: data.slug ? "pointer" : "default",
-          background:
-            "linear-gradient(160deg, var(--app-surface-content-soft) 0%, var(--app-surface-content) 72%, var(--app-surface-content-strong) 100%)",
         }}
       >
         <Card.Section>

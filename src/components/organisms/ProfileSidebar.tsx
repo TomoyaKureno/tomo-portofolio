@@ -35,8 +35,8 @@ const ProfileSidebar = () => {
   const profile = useAppContext().profile;
   const iconBadgeBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
   const iconBadgeColor = isDark ? "blue.4" : "blue.7";
-  const socialIconBg = isDark ? "dark.4" : "gray.0";
-  const socialIconColor = isDark ? "gray.5" : "gray.2";
+  const socialIconBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
+  const socialIconColor = isDark ? "blue.4" : "blue.7";
 
   const contactItems = [
     {
@@ -60,6 +60,16 @@ const ProfileSidebar = () => {
       value: profile?.address,
     },
   ];
+
+  const handleCopyEmail = async () => {
+    if (!profile?.email) return;
+    await navigator.clipboard.writeText(profile.email);
+  };
+
+  const handleCopyPhone = async () => {
+    if (!profile?.phone) return;
+    await navigator.clipboard.writeText(profile.phone.replace(/\s+/g, ""));
+  };
 
   return (
     <Box visibleFrom="md" pos="fixed" w={322} h="100%" py="xl">
@@ -123,30 +133,55 @@ const ProfileSidebar = () => {
             </Badge>
           </MotionFlex>
 
-          <Box bg="dark.3" w="100%" h="4" bdrs="md" mx="auto" my="8" />
+          <Box bg={isDark ? "dark.3" : "var(--app-border-color)"} w="100%" h="4" bdrs="md" mx="auto" my="8" />
 
           <ScrollArea h="100%" type="never">
             <MotionFlex direction="column" gap="md" variants={staggerContainerVariants} initial="hidden" animate="visible" p={"xs"}>
               {contactItems.map((item) => (
-                <MotionBox key={item.title} variants={fadeUpVariants}>
-                  <BadgeCard
-                    cardProps={{
-                      styles: {
-                        root: { boxShadow: "0 4px 14px var(--app-shadow-contact-color)" },
-                      },
-                    }}
-                    iconBadge={{
-                      icon: { name: item.icon as IconName, size: 20 },
-                      p: "sm",
-                      bdrs: "md",
-                      w: "fit-content",
-                      bg: iconBadgeBg,
-                      c: iconBadgeColor,
-                    }}
-                    title={{ text: item.title }}
-                    description={{ text: item.value }}
-                  />
-                </MotionBox>
+                <Box
+                  key={item.title}
+                  onClick={
+                    item.title === "EMAIL"
+                      ? () => {
+                          void handleCopyEmail();
+                        }
+                      : item.title === "PHONE"
+                        ? () => {
+                            void handleCopyPhone();
+                          }
+                        : undefined
+                  }
+                  style={{
+                    cursor: item.title === "EMAIL" || item.title === "PHONE" ? "copy" : "default",
+                  }}
+                  title={
+                    item.title === "EMAIL"
+                      ? "Click to copy email"
+                      : item.title === "PHONE"
+                        ? "Click to copy phone"
+                        : undefined
+                  }
+                >
+                  <MotionBox variants={fadeUpVariants}>
+                    <BadgeCard
+                      cardProps={{
+                        styles: {
+                          root: { boxShadow: "0 4px 14px var(--app-shadow-contact-color)" },
+                        },
+                      }}
+                      iconBadge={{
+                        icon: { name: item.icon as IconName, size: 20 },
+                        p: "sm",
+                        bdrs: "md",
+                        w: "fit-content",
+                        bg: iconBadgeBg,
+                        c: iconBadgeColor,
+                      }}
+                      title={{ text: item.title }}
+                      description={{ text: item.value }}
+                    />
+                  </MotionBox>
+                </Box>
               ))}
 
               <Flex gap="md" align="center" bdrs="md" justify="center">

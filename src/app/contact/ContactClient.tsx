@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeUpVariants, staggerContainerVariants } from "@/src/lib/motion";
 import { useRouter, useSearchParams } from "next/navigation";
+import * as LucideIcons from "lucide-react";
 
 type MailState = {
   name: string;
@@ -42,6 +43,8 @@ type SubmitState = {
   message: string;
 } | null;
 
+type IconName = keyof typeof LucideIcons;
+
 const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", initialMessage = "" }) => {
   const profile = useAppContext().profile;
   const theme = useMantineTheme();
@@ -50,6 +53,9 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
   const searchParams = useSearchParams();
   const iconBadgeBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
   const iconBadgeColor = isDark ? "blue.4" : "blue.7";
+  const socialItems = (profile?.socialMedia ?? []).filter((item) =>
+    ["Facebook", "Instagram", "Linkedin", "LinkedIn"].includes(item.title),
+  );
 
   const [mail, setMail] = useState<MailState>({
     name: "",
@@ -197,6 +203,28 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
                         <Text>{profile?.address}</Text>
                       </Box>
                     </Group>
+
+                    {socialItems.length > 0 && (
+                      <Group gap="sm" align="center">
+                        {socialItems.map((item) => {
+                          if (!(item.title in LucideIcons)) return null;
+
+                          return (
+                            <a key={item.title} href={item.url} target="_blank" rel="noreferrer" style={{ textDecoration: "none" }}>
+                              <IconBadge
+                                icon={{ name: item.title as IconName, size: 16 }}
+                                p="sm"
+                                bdrs="md"
+                                w="fit-content"
+                                bg={iconBadgeBg}
+                                c={iconBadgeColor}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </a>
+                          );
+                        })}
+                      </Group>
+                    )}
                   </Stack>
                 </Card>
               </Stack>

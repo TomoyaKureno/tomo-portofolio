@@ -37,12 +37,12 @@ const gridItemVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.3, ease: "easeOut" as const },
+    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 export default function ProjectDetailClient({ project }: ProjectDetailClientProps) {
-  const isNarrowMobile = useMediaQuery("(max-width: 480px)");
+  const isVerySmallMobile = useMediaQuery("(max-width: 400px)");
   const animationMode = useVisitAnimationGate(`project:${project.id}`);
   const isEager = animationMode === "eager";
   const contactSubject = `I really like your project: "${project.name}"`;
@@ -65,30 +65,32 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
     <MotionDiv variants={staggerContainerVariants} initial="hidden" animate="visible">
       <MainContent>
         <MotionDiv variants={fadeUpVariants}>
-          <Flex>
-            <Button
-              component="a"
-              href="/projects"
-              variant="light"
-              color="blue"
-              leftSection={<ChevronLeft size={16} />}
-              radius="xl"
-              size="sm"
-              w={{ base: "fit-content", sm: "auto" }}
-              px={{ base: "sm", sm: "md" }}
-              styles={{
-                root: {
-                  border: "1px solid var(--mantine-color-blue-4)",
-                  backdropFilter: "blur(6px)",
-                },
-                label: {
-                  fontWeight: 600,
-                },
-              }}
-            >
-              Back to Projects
-            </Button>
-          </Flex>
+          <Box pt={"xs"}>
+            <MotionDiv whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.99 }} transition={{ duration: 0.2 }}>
+              <Button
+                component="a"
+                href="/projects"
+                variant="light"
+                color="blue"
+                leftSection={<ChevronLeft size={16} />}
+                radius="xl"
+                size="sm"
+                w={{ base: "fit-content", sm: "auto" }}
+                px={{ base: "sm", sm: "md" }}
+                styles={{
+                  root: {
+                    border: "1px solid var(--mantine-color-blue-4)",
+                    backdropFilter: "blur(6px)",
+                  },
+                  label: {
+                    fontWeight: 600,
+                  },
+                }}
+              >
+                Back to Projects
+              </Button>
+            </MotionDiv>
+          </Box>
         </MotionDiv>
 
         <MotionDiv variants={fadeUpVariants}>
@@ -120,32 +122,43 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                 </Group>
               </Box>
 
-              <Flex gap="sm" wrap="wrap" justify={{ base: "flex-start", sm: "flex-end" }} w={isNarrowMobile ? "100%" : "auto"}>
+              <Flex
+                gap="sm"
+                direction={isVerySmallMobile ? "column" : "row"}
+                wrap={isVerySmallMobile ? "nowrap" : "wrap"}
+                align={isVerySmallMobile ? "stretch" : "center"}
+                justify={{ base: "flex-start", sm: "flex-end" }}
+                w={isVerySmallMobile ? "100%" : "auto"}
+              >
                 {project.liveDemo && (
-                  <Button
-                    component="a"
-                    href={project.liveDemo}
-                    target="_blank"
-                    rel="noreferrer"
-                    leftSection={<ExternalLink size={16} />}
-                    w={isNarrowMobile ? "100%" : "auto"}
-                  >
-                    Live Demo
-                  </Button>
+                  <MotionDiv whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.99 }} transition={{ duration: 0.2 }}>
+                    <Button
+                      component="a"
+                      href={project.liveDemo}
+                      target="_blank"
+                      rel="noreferrer"
+                      leftSection={<ExternalLink size={16} />}
+                      w={isVerySmallMobile ? "100%" : "auto"}
+                    >
+                      Live Demo
+                    </Button>
+                  </MotionDiv>
                 )}
 
                 {project.sourceUrl && (
-                  <Button
-                    component="a"
-                    href={project.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    variant="outline"
-                    leftSection={<Github size={16} />}
-                    w={isNarrowMobile ? "100%" : "auto"}
-                  >
-                    View Code
-                  </Button>
+                  <MotionDiv whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.99 }} transition={{ duration: 0.2 }}>
+                    <Button
+                      component="a"
+                      href={project.sourceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      variant="outline"
+                      leftSection={<Github size={16} />}
+                      w={isVerySmallMobile ? "100%" : "auto"}
+                    >
+                      View Code
+                    </Button>
+                  </MotionDiv>
                 )}
               </Flex>
             </Flex>
@@ -244,7 +257,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
           <GridCol span={{ base: 12, lg: 4 }}>
             <MotionDiv variants={staggerContainerVariants} {...sectionMotionProps(0.2)}>
               <Flex direction="column" gap="md">
-                <MotionDiv variants={fadeUpVariants} whileHover={{ y: -4 }}>
+                <MotionDiv variants={fadeUpVariants}>
                   <Card bg="var(--app-surface-content)" withBorder>
                     <Title order={4} mb="sm">
                       Technologies Used
@@ -259,7 +272,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                   </Card>
                 </MotionDiv>
 
-                <MotionDiv variants={fadeUpVariants} whileHover={{ y: -4 }}>
+                <MotionDiv variants={fadeUpVariants}>
                   <Card bg="var(--app-surface-content)" withBorder>
                     <Title order={4} mb="sm">
                       Project Details
@@ -269,7 +282,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                         Status
                       </Text>
                       <Text fw={600}>{formatDisplayName(project.projectStatus)}</Text>
-                      <Divider my="xs" />
+                      <Divider my="xs" color="var(--app-border-color)" />
 
                       {project.client && (
                         <>
@@ -277,7 +290,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                             Client
                           </Text>
                           <Text fw={600}>{project.client}</Text>
-                          <Divider my="xs" />
+                          <Divider my="xs" color="var(--app-border-color)" />
                         </>
                       )}
 
@@ -293,7 +306,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                   </Card>
                 </MotionDiv>
 
-                <MotionDiv variants={fadeUpVariants} whileHover={{ y: -4 }}>
+                <MotionDiv variants={fadeUpVariants}>
                   <Card bg="var(--app-surface-content)" withBorder>
                     <Title order={4} mb="sm">
                       Like this project?
@@ -301,9 +314,11 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                     <Text c="gray.4" size="sm" mb="md">
                       Let&apos;s discuss how I can help bring your ideas to life.
                     </Text>
-                    <Button component="a" href={contactHref} fullWidth>
-                      Get In Touch
-                    </Button>
+                    <MotionDiv whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.99 }} transition={{ duration: 0.2 }}>
+                      <Button component="a" href={contactHref} fullWidth>
+                        Get In Touch
+                      </Button>
+                    </MotionDiv>
                   </Card>
                 </MotionDiv>
               </Flex>
