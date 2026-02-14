@@ -66,7 +66,12 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
       <MainContent>
         <MotionDiv variants={fadeUpVariants}>
           <Box pt={"xs"}>
-            <MotionDiv whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.99 }} transition={{ duration: 0.2 }}>
+            <MotionDiv
+                whileHover={{ y: -2, scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                transition={{ duration: 0.2 }}
+                style={{width: "fit-content"}}
+              >
               <Button
                 component="a"
                 href="/projects"
