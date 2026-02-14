@@ -65,6 +65,11 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitState, setSubmitState] = useState<SubmitState>(null);
+  const inputStyles = {
+    input: {
+      borderColor: "var(--app-border-color)",
+    },
+  } as const;
 
   const handleSendMail = async () => {
     const payload = {
@@ -246,6 +251,7 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
                     <TextInput
                       placeholder="Your Name"
                       value={mail.name}
+                      styles={inputStyles}
                       onChange={(event) => {
                         const value = event.currentTarget.value;
                         setMail((prev) => ({ ...prev, name: value }));
@@ -255,6 +261,7 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
                       type="email"
                       placeholder="Your Email"
                       value={mail.email}
+                      styles={inputStyles}
                       onChange={(event) => {
                         const value = event.currentTarget.value;
                         setMail((prev) => ({ ...prev, email: value }));
@@ -265,6 +272,7 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
                   <TextInput
                     placeholder="Subject"
                     value={mail.subject}
+                    styles={inputStyles}
                     onChange={(event) => {
                       const value = event.currentTarget.value;
                       setMail((prev) => ({ ...prev, subject: value }));
@@ -275,6 +283,7 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
                     rows={7}
                     placeholder="Your Message"
                     value={mail.message}
+                    styles={inputStyles}
                     onChange={(event) => {
                       const value = event.currentTarget.value;
                       setMail((prev) => ({ ...prev, message: value }));

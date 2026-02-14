@@ -1,50 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tomo Portfolio
 
-## Environment Variables
+Modern personal portfolio website with Apple-like visual direction, motion-driven UI, and CMS-based content management.
 
-Add these variables to `.env` for Contact form email delivery:
+## Project Overview
 
-```bash
-GMAIL_USER=tomo7.dev@gmail.com
-GMAIL_APP_PASSWORD=your_gmail_app_password
-CONTACT_RECEIVER_EMAIL=tomo7.dev@gmail.com
-```
+This project is a multi-page portfolio application built to present profile, resumes, projects, certificates, and contact information in a clean and premium interface.
+Content is managed from Hygraph and rendered through a typed GraphQL integration, while UI interactions are powered by Mantine and Framer Motion.
 
-Notes:
-- `GMAIL_APP_PASSWORD` must be a Gmail App Password (not regular account password).
-- If `CONTACT_RECEIVER_EMAIL` is omitted, emails default to `tomo7.dev@gmail.com`.
+## Main Features
 
-## Getting Started
+- Apple-like dark and light theme with toggle support
+- Responsive layout with dedicated desktop sidebar and mobile navigation
+- Project listing, filtering, and project detail pages
+- Resume timeline for education and experience
+- Certificates and technologies showcase
+- Contact form with SMTP mail delivery
+- Per-page/per-item animation behaviors for better UX consistency
 
-First, run the development server:
+## Pages
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- `About`
+- `Resumes`
+- `Projects`
+- `Project Detail`
+- `Certificates`
+- `Contact`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Framework: `Next.js 16` (App Router)
+- Language: `TypeScript`
+- UI Library: `Mantine`
+- Animation: `Framer Motion`
+- Icons: `Lucide React`
+- Data Fetching: `graphql-request`
+- Client Cache/State Utilities: `@tanstack/react-query`
+- CMS: `Hygraph` (GraphQL API)
+- Code Generation: `GraphQL Code Generator`
+- Deployment Target: `Vercel`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Content Source
 
-## Learn More
+All portfolio data (profile, projects, resumes, certificates, technologies, testimonials) is modeled and served from Hygraph via GraphQL queries.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Goal
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deliver a production-ready portfolio that is visually polished, easy to update from CMS, and scalable for future sections/features without changing core architecture.
