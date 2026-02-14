@@ -1,0 +1,73 @@
+query getResumes {
+  educations {
+    id
+    resume {
+      organization
+      role
+      startDate
+      endDate
+      textRecords
+      groupRecords {
+        id
+        label
+        textRecords
+        resumeRecords {
+          id
+          record
+          startDate
+          endDate
+          galeries {
+            id
+            url
+          }
+        }
+        galeries {
+          id
+          url
+        }
+      }
+      galeries {
+        id
+        url
+      }
+    }
+    gpa
+    maxScore
+  }
+  experiences {
+    id
+    resume {
+      organization
+      role
+      startDate
+      endDate
+      textRecords
+      groupRecords {
+        id
+        label
+        textRecords
+        resumeRecords {
+          id
+          record
+          startDate
+          endDate
+          galeries {
+            id
+            url
+          }
+        }
+        galeries {
+          id
+          url
+        }
+      }
+      galeries {
+        id
+        url
+      }
+    }
+    technologies {
+      id
+    }
+  }
+}

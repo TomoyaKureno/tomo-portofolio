@@ -1,0 +1,18 @@
+query getProfile {
+  profiles {
+    address
+    alias
+    description
+    email
+    fullName
+    socialMedia {
+      title
+      url
+    }
+    dateOfBirth
+    phone
+    image {
+      url
+    }
+  }
+}

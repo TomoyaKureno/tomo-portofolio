@@ -1,5 +1,19 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment Variables
+
+Add these variables to `.env` for Contact form email delivery:
+
+```bash
+GMAIL_USER=tomo7.dev@gmail.com
+GMAIL_APP_PASSWORD=your_gmail_app_password
+CONTACT_RECEIVER_EMAIL=tomo7.dev@gmail.com
+```
+
+Notes:
+- `GMAIL_APP_PASSWORD` must be a Gmail App Password (not regular account password).
+- If `CONTACT_RECEIVER_EMAIL` is omitted, emails default to `tomo7.dev@gmail.com`.
+
 ## Getting Started
 
 First, run the development server:

@@ -1,0 +1,22 @@
+query getCertificates {
+  certificates {
+    id
+    name
+    issuer
+    issuerImage {
+      url
+    }
+    categories {
+      id
+      name
+      slug
+    }
+    description
+    file {
+      url
+    }
+    certificateCode
+    issued
+    sourceUrl
+  }
+}

@@ -1,0 +1,7 @@
+query getCertificateCategories {
+  certificateCategories {
+    id
+    name
+    slug
+  }
+}

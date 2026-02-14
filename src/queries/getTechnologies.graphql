@@ -1,0 +1,8 @@
+query getTechnologies {
+  technologies {
+    id
+    name
+    slug
+    url
+  }
+}

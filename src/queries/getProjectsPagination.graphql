@@ -1,0 +1,35 @@
+query getProjectsPagination(
+  $first: Int!
+  $skip: Int!
+  $where: ProjectWhereInput
+) {
+  projects(
+    first: $first
+    skip: $skip
+    orderBy: createdAt_DESC
+    where: $where
+  ) {
+    id
+    name
+    slug
+    overview
+    liveDemo
+    sourceUrl
+
+    categories {
+      id
+      name
+      slug
+    }
+
+    technologies {
+      id
+      name
+      slug
+    }
+
+    galeries {
+      url
+    }
+  }
+}

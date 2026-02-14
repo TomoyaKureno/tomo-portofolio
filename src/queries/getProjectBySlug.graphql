@@ -1,0 +1,26 @@
+query getProjectBySlug($slug: String!) {
+  project(where: {slug: $slug}) {
+    id
+    name
+    categories {
+      id
+      name
+    }
+    overview
+    liveDemo
+    sourceUrl
+    technologies {
+      id
+      name
+      url
+    }
+    client
+    duration
+    projectStatus
+    keyFeatures
+    galeries {
+      id
+      url
+    }
+  }
+}
