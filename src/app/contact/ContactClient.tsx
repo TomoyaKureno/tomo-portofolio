@@ -22,7 +22,7 @@ import {
 import { Send } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { fadeUpVariants, staggerContainerVariants } from "@/src/lib/motion";
+import { fadeUpVariants, interactiveCardTransition, staggerContainerVariants } from "@/src/lib/motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import * as LucideIcons from "lucide-react";
 
@@ -51,11 +51,8 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
   const { isDark } = useStableColorScheme("dark");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const iconBadgeBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
-  const iconBadgeColor = isDark ? "blue.4" : "blue.7";
-  const socialItems = (profile?.socialMedia ?? []).filter((item) =>
-    ["Facebook", "Instagram", "Linkedin", "LinkedIn"].includes(item.title),
-  );
+  const iconBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
+  const iconColor = isDark ? "blue.4" : "blue.7";
 
   const [mail, setMail] = useState<MailState>({
     name: "",
@@ -70,6 +67,23 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
       borderColor: "var(--app-border-color)",
     },
   } as const;
+    const contactItems = [
+      {
+        title: "EMAIL",
+        icon: "Mail",
+        value: profile?.email,
+      },
+      {
+        title: "PHONE",
+        icon: "Phone",
+        value: profile?.phone,
+      },
+      {
+        title: "ADDRESS",
+        icon: "MapPin",
+        value: profile?.address,
+      }
+    ];
 
   const handleSendMail = async () => {
     const payload = {
@@ -158,78 +172,52 @@ const ContactClient: React.FC<ContactClientProps> = ({ initialSubject = "", init
 
                 <Card bg="var(--app-surface-content)" withBorder>
                   <Stack gap="md">
-                    <Group gap="sm" align="start">
-                      <IconBadge
-                        icon={{ name: "Mail", size: 14 }}
-                        p="sm"
-                        bdrs="md"
-                        w="fit-content"
-                        bg={iconBadgeBg}
-                        c={iconBadgeColor}
-                      />
-                      <Box>
-                        <Text c="gray.5" size="xs">
-                          EMAIL
-                        </Text>
-                        <Text>{profile?.email}</Text>
-                      </Box>
+                    {
+                      contactItems.map((data) => (
+                        <Group key={data.title} gap="sm" align="start">
+                          <IconBadge
+                            icon={{ name: data.icon, size: 16 }}
+                            p="sm"
+                            bdrs="md"
+                            w="fit-content"
+                            bg={iconBg}
+                            c={iconColor}
+                          />
+                          <Box>
+                            <Text c="gray.5" size="xs">
+                              {data.title}
+                            </Text>
+                            <Text>{data.value}</Text>
+                          </Box>
+                        </Group>
+                      ))
+                    }
+
+                    <Group gap="md" align="center">
+                      {
+                        profile?.socialMedia.map((data) => (
+                          <motion.a
+                            key={data.title}
+                            href={data.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            whileHover={{ y: -3, scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={interactiveCardTransition}
+                          >
+                            <IconBadge
+                              icon={{ name: data.title as IconName, size: 16 }}
+                              c={iconColor}
+                              p="sm"
+                              bg={iconBg}
+                              bdrs="md"
+                              w="fit-content"
+                              style={{ cursor: "pointer" }}
+                            />
+                          </motion.a>
+                        ))
+                      }
                     </Group>
-
-                    <Group gap="sm" align="start">
-                      <IconBadge
-                        icon={{ name: "Phone", size: 14 }}
-                        p="sm"
-                        bdrs="md"
-                        w="fit-content"
-                        bg={iconBadgeBg}
-                        c={iconBadgeColor}
-                      />
-                      <Box>
-                        <Text c="gray.5" size="xs">
-                          PHONE
-                        </Text>
-                        <Text>{profile?.phone}</Text>
-                      </Box>
-                    </Group>
-
-                    <Group gap="sm" align="start">
-                      <IconBadge
-                        icon={{ name: "MapPin", size: 14 }}
-                        p="sm"
-                        bdrs="md"
-                        w="fit-content"
-                        bg={iconBadgeBg}
-                        c={iconBadgeColor}
-                      />
-                      <Box>
-                        <Text c="gray.5" size="xs">
-                          ADDRESS
-                        </Text>
-                        <Text>{profile?.address}</Text>
-                      </Box>
-                    </Group>
-
-                    {socialItems.length > 0 && (
-                      <Group gap="sm" align="center">
-                        {socialItems.map((item) => {
-                          if (!(item.title in LucideIcons)) return null;
-
-                          return (
-                            <a key={item.title} href={item.url} target="_blank" rel="noreferrer" style={{ textDecoration: "none" }}>
-                              <IconBadge
-                                icon={{ name: item.title as IconName, size: 16 }}
-                                p="sm"
-                                bdrs="md"
-                                w="fit-content"
-                                bg={iconBadgeBg}
-                                c={iconBadgeColor}
-                                style={{ cursor: "pointer" }}
-                              />
-                            </a>
-                          );
-                        })}
-                      </Group>
-                    )}
                   </Stack>
                 </Card>
               </Stack>

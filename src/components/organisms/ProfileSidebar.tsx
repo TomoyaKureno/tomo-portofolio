@@ -33,10 +33,8 @@ const ProfileSidebar = () => {
   const theme = useMantineTheme();
   const { isDark } = useStableColorScheme("dark");
   const profile = useAppContext().profile;
-  const iconBadgeBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
-  const iconBadgeColor = isDark ? "blue.4" : "blue.7";
-  const socialIconBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
-  const socialIconColor = isDark ? "blue.4" : "blue.7";
+  const iconBg = isDark ? alpha(theme.colors.blue[9], 0.56) : alpha(theme.colors.blue[5], 0.15);
+  const iconColor = isDark ? "blue.4" : "blue.7";
 
   const contactItems = [
     {
@@ -111,8 +109,9 @@ const ProfileSidebar = () => {
                 src={ profile?.image?.url ?? "/images/tomo-transparent.png" }
                 alt="avatar"
                 fill
+                sizes="(max-width: 64em) 1px, 200px"
                 style={{ objectFit: "cover", objectPosition: "center", backfaceVisibility: "hidden" }}
-                loading="eager"
+                loading="lazy"
               />
             </Box>
           </MotionBox>
@@ -174,8 +173,8 @@ const ProfileSidebar = () => {
                         p: "sm",
                         bdrs: "md",
                         w: "fit-content",
-                        bg: iconBadgeBg,
-                        c: iconBadgeColor,
+                        bg: iconBg,
+                        c: iconColor,
                       }}
                       title={{ text: item.title }}
                       description={{ text: item.value }}
@@ -197,9 +196,9 @@ const ProfileSidebar = () => {
                   >
                     <IconBadge
                       icon={{ name: data.title as IconName, size: 20 }}
-                      c={socialIconColor}
+                      c={iconColor}
                       p="sm"
-                      bg={socialIconBg}
+                      bg={iconBg}
                       bdrs="md"
                       w="fit-content"
                       style={{ cursor: "pointer" }}
